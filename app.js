@@ -3,8 +3,13 @@ const condition = document.querySelector("#condition");
 const location_name = document.querySelector("#location");
 const datetime = document.querySelector("#datetime");
 const temperature = document.querySelector("#temperature");
+const feelsLike = document.querySelector("#feels-like");
+const humidity = document.querySelector("#humidity");
+const changeOfRain = document.querySelector("chance-of-rain");
+const windSpeed = document.querySelector("#wind-speed");
+const searchError = document.querySelector("#search-error");
+
 const btnToggleUnit = document.querySelector("#unit-selector");
-const conditionIcon = document.querySelector("#condition-icon");
 const cityQuery = document.querySelector("#city-query");
 const btnSearch = document.querySelector("#btn-search");
 
@@ -34,18 +39,17 @@ const unitF = document.querySelector("#unit-f");
 unitC.style["font-weight"] = "bolder";
 unitF.style["font-weight"] = "lighter";
 
+let weatherData = {};
 
 
 // Async functions
 async function fetchWeatherData(url) {
-
   let response = await fetch(url);
-  let weatherData = await response.json();
-  return weatherData;
+  weatherData = await response.json();
 }
 
-async function getProcessedData(data) {
-  console.log(unit);
+function getProcessedData() {
+  const data = weatherData;
   if (unit.toLowerCase() === "f") {
     return {
       "cloud": data.current.cloud, 
@@ -60,7 +64,8 @@ async function getProcessedData(data) {
       "vis": data.current.vis_miles,
       "wind_speed": data.current.wind_mph,
       "datetime": data.location.localtime,
-      "location": data.location.name
+      "location": data.location.name,
+      "uv": data.current.uv
     };
   } else if (unit.toLowerCase() ==="c") {
     return {
@@ -76,7 +81,8 @@ async function getProcessedData(data) {
       "vis": data.current.vis_km,
       "wind_speed": data.current.wind_kph,
       "datetime": data.location.localtime,
-      "location": data.location.name
+      "location": data.location.name,
+      "uv": data.current.uv
     };
   }
 }
@@ -86,6 +92,10 @@ async function buildContent(data) {
   location_name.textContent = data.location;
   datetime.innerHTML = `${moment(data.datetime).format("dddd, MMMM Do, YYYY")}<br>${moment(data.datetime).format("h:mm a")}`;
   temperature.textContent = `${data.temp} ${UNIT_MAP[unit].temperature}`;
+  feelsLike.textContent = `${data.feelslike} ${UNIT_MAP[unit].temperature}`;
+  humidity.textContent = data.humidity;
+  uv.textContent = data.uv;
+  windSpeed.textContent = `${data.wind_speed} ${UNIT_MAP[unit].speed}`;
 }
 
 function getCityName() {
@@ -106,8 +116,8 @@ function toggleUnit() {
     unitC.style["font-weight"] = "bolder";
     unitF.style["font-weight"] = "lighter";
   }
-
-  refresh();
+  const data = getProcessedData();
+  buildContent(data)
 }
 
 async function refresh() {
@@ -115,11 +125,13 @@ async function refresh() {
   if (cityName !== "") {
     try {
       const url_query = getFullUrl(cityName);
-      const tmpData = await fetchWeatherData(url_query);
-      const data = await getProcessedData(tmpData);
+      await fetchWeatherData(url_query);
+      const data = getProcessedData();
       buildContent(data);
+      searchError.textContent = "";
     } catch(err) {
-      console.log(err);
+      searchError.textContent = "Could not find the city. Please try again.";
+      cityName.value = "";
     }
   }
   cityQuery.value = "";
@@ -143,7 +155,7 @@ async function buildDefault() {
   let cityName = "london";
   const url_query = getFullUrl(cityName);
   const tmpData = await fetchWeatherData(url_query);
-  const data = await getProcessedData(tmpData);
+  const data = getProcessedData(tmpData);
   buildContent(data);
 }
 
