@@ -1,0 +1,120 @@
+@import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap);
+
+
+:root {
+  font-family: montserrat, sans-serif;
+}
+
+
+body {
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('./assets/background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  padding: 0px 4rem;
+}
+
+header {
+  height: 100px;
+}
+
+header input[type="text"] {
+  background-color: transparent;
+  border: none;
+  color: white;
+  outline: none;
+  font-size: 1rem;  
+}
+
+#search-form {
+  border-bottom: 2px solid white;
+}
+
+#btn-search {
+  cursor: pointer;
+}
+
+#btn-search svg {
+  fill: white;
+  height: 25px;
+  pointer-events: none;
+}
+
+#unit-selector {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 6px 28px;
+  border-radius: 4px;
+  color: white;
+  user-select: none;
+}
+
+.unselectable {
+  -webkit-user-select: none;  /* Chrome, Safari and Opera */
+  -moz-user-select: none;     /* Firefox */
+  -ms-user-select: none;      /* IE/Edge */
+  user-select: none;          /* Standard syntax */
+}
+
+#unit-selector:hover {
+  cursor: pointer;
+}
+
+footer {
+  color: white;
+  height: 30px;
+  font-size: 0.75rem;
+}
+
+footer > a {
+  color: inherit;
+  text-decoration: underlying;
+}
+
+.flex-v {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-h {
+  display: flex;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-align-center {
+  align-items: center;
+}
+
+.flex-justify-center {
+  justify-content: center;
+}
+
+.flex-space {
+  justify-content: space-between;
+}
+
+.white-text-bold {
+  color: white;
+  font-weight: 500;
+  line-height: 1;
+}
+
+#condition {
+  font-size: 4rem;
+}
+
+#temperature {
+  font-size: 6rem;
+  font-weight: 700;
+}
+#location {
+  font-size: 2rem;
+}
+
+p {
+  margin: 16px 0px;
+}
